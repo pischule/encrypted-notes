@@ -19,6 +19,9 @@ public class User {
     @Id
     private long userId;
     private String sessionKey;
+    private String encryptedSessionKey;
+    private String publicKey;
+    private String privateKey;
 
     @Override
     public boolean equals(Object o) {

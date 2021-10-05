@@ -22,10 +22,16 @@ public class NotesService {
     public SessionKeyResponse getSessionKey(SessionKeyRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        String sessionKey = encryptionService.generateSessionKey();
-        user.setSessionKey(sessionKey);
+        var data = encryptionService.GenerateData();
+        user.setSessionKey(data.getSessionKey());
+        user.setEncryptedSessionKey(data.getEncryptedSessionKey());
+        user.setPublicKey(data.getPublicKey().substring(0, 255));
+        user.setPrivateKey(data.getPrivateKey().substring(0, 255));
+
+//        user.setPublicKey("data.getPublicKey()");
+//        user.setPrivateKey("data.getPrivateKey()");
         userRepository.save(user);
-        return new SessionKeyResponse(user.getSessionKey());
+        return new SessionKeyResponse(user.getSessionKey(), user.getEncryptedSessionKey(), user.getPublicKey(), user.getPrivateKey());
     }
 
     public EncryptedNoteResponse getEncryptedNotes(Long noteId, Long userId) {
@@ -38,7 +44,7 @@ public class NotesService {
                 .orElseThrow(() -> new IllegalArgumentException("User doesn't have session key"));
         String plainText = note.getText();
 
-        String encryptedText = encryptionService.encryptText(plainText, sessionKey);
-        return new EncryptedNoteResponse(encryptedText);
+        var res = encryptionService.encryptText(plainText, sessionKey);
+        return new EncryptedNoteResponse(res.getText(), res.getEncText());
     }
 }

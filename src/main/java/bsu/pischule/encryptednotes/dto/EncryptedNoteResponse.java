@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 public class EncryptedNoteResponse {
-    public String text;
+    private String text;
+    private String encText;
 }

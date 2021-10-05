@@ -7,4 +7,7 @@ import lombok.*;
 @Data
 public class SessionKeyResponse {
     private String sessionKey;
+    private String encryptedSessionKey;
+    private String publicKey;
+    private String privateKey;
 }

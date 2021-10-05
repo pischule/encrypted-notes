@@ -13,15 +13,18 @@
     <h2>Защищенный блокнот</h2>
 
     <div v-if="sessionKey === null">
-        <label for="publicKey">Публичный ключ</label>
-        <input id="publicKey" v-model="publicKey" placeholder="123" type="text">
+        <label hidden for="publicKey">Публичный ключ</label>
+        <input hidden id="publicKey" v-model="publicKey" placeholder="123" type="text">
 
-        <label for="privateKey">Приватный ключ</label>
-        <input id="privateKey" v-model="privateKey" placeholder="234" type="text">
+<!--        <label for="privateKey">Приватный ключ</label>-->
+<!--        <input id="privateKey" v-model="privateKey" placeholder="234" type="text">-->
         <button class="btn" @click="getSessionKey">Получить сеансовый ключ</button>
     </div>
     <div v-else>
         <p>Сеансовый ключ: {{sessionKey}}</p>
+        <p>encryptedSessionKey: {{encryptedSessionKey}}</p>
+        <p>publicKey : {{publicKey}}</p>
+        <p>privateKey: {{privateKey}}</p>
 
         <label for="fileId">ID файла</label>
         <input id="fileId" v-model="fileId" type="number" placeholder="1">
@@ -30,6 +33,11 @@
         <div v-if="fileContents !== null">
             <p>Содержимое файла:</p>
             <p>{{fileContents}}</p>
+        </div>
+
+        <div v-if="encryptedFileContents !== null">
+            <p>Содержимое файла зашифрованное:</p>
+            <p>{{encryptedFileContents}}</p>
         </div>
     </div>
 </div>
@@ -45,12 +53,14 @@
     const app = new Vue({
         el: '#app',
         data: {
-            publicKey: null,
-            privateKey: null,
+            publicKey: 1,
+            privateKey: 1,
             sessionKey: null,
+            encryptedSessionKey: null,
             userId: 1,
             fileId: 1,
-            fileContents: null
+            fileContents: null,
+            encryptedFileContents: null,
         },
         methods: {
             getSessionKey() {
@@ -73,6 +83,9 @@
                     })
                     .then(json => {
                         this.sessionKey = json.sessionKey;
+                        this.encryptedSessionKey = json.encryptedSessionKey;
+                        this.privateKey = json.privateKey;
+                        this.publicKey = json.publicKey;
                     })
                     .catch(err => {
                         M.toast({html: err});
@@ -94,6 +107,7 @@
                     })
                     .then(json => {
                         this.fileContents = json.text;
+                        this.encryptedFileContents = json.encText;
                     })
                     .catch(err => {
                         this.fileContents = null;
