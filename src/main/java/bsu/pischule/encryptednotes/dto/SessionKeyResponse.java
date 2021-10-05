@@ -8,6 +8,8 @@ import lombok.*;
 public class SessionKeyResponse {
     private String sessionKey;
     private String encryptedSessionKey;
+    private String encryptedSessionKeyAsBigInteger;
     private String publicKey;
     private String privateKey;
+
 }

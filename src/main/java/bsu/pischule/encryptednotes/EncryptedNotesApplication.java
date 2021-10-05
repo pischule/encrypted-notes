@@ -38,7 +38,7 @@ public class EncryptedNotesApplication {
             noteRepository.save(note);
             log.info("Note saved: {}", note);
 
-            User user = new User(1L, null, null, null, null);
+            User user = new User(1L, null, null, null, null, null);
             userRepository.save(user);
             log.info("User saved: {}", user);
         };

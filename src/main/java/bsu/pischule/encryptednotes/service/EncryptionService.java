@@ -6,6 +6,8 @@ import bsu.pischule.encryptednotes.dto.EncryptedNoteResponse;
 import bsu.pischule.encryptednotes.dto.SessionKeyResponse;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+
 @Service
 public class EncryptionService {
     public String generateSessionKey() {
@@ -32,6 +34,7 @@ public class EncryptionService {
         // на котором зашифровали message
         RSA rsa1 = new RSA(512);
         var enc = rsa1.encrypt(message, publicKey);
+
         //отправили зашифрованный текст клиенту
         {
 
@@ -41,7 +44,9 @@ public class EncryptionService {
         RSA rsa2 = new RSA(512);
         var res = rsa2.decrypt(enc, privateKey);
 
-        return new SessionKeyResponse(res, rsa.cipherToString(enc), publicKey.toString(), privateKey.toString());
+        return new SessionKeyResponse(res, rsa.cipherToString(enc), enc.toString(), publicKey.toString(), privateKey.toString());
+
+//        return new SessionKeyResponse(res, rsa.cipherToString(enc), publicKey.toString(), privateKey.toString());
     }
 
     public EncryptedNoteResponse cfb(String message, String sessionKey)

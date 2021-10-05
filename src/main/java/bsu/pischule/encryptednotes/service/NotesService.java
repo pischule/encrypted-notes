@@ -27,11 +27,11 @@ public class NotesService {
         user.setEncryptedSessionKey(data.getEncryptedSessionKey());
         user.setPublicKey(data.getPublicKey().substring(0, 255));
         user.setPrivateKey(data.getPrivateKey().substring(0, 255));
-
+        user.setEncryptedSessionKeyAsBigInteger(data.getEncryptedSessionKeyAsBigInteger().substring(0, 255));
 //        user.setPublicKey("data.getPublicKey()");
 //        user.setPrivateKey("data.getPrivateKey()");
         userRepository.save(user);
-        return new SessionKeyResponse(user.getSessionKey(), user.getEncryptedSessionKey(), user.getPublicKey(), user.getPrivateKey());
+        return new SessionKeyResponse(user.getSessionKey(), user.getEncryptedSessionKey(), user.getEncryptedSessionKeyAsBigInteger(), user.getPublicKey(), user.getPrivateKey());
     }
 
     public EncryptedNoteResponse getEncryptedNotes(Long noteId, Long userId) {
