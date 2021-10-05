@@ -25,11 +25,8 @@ public class NotesService {
         var data = encryptionService.GenerateData();
         user.setSessionKey(data.getSessionKey());
         user.setEncryptedSessionKey(data.getEncryptedSessionKey());
-        user.setPublicKey(data.getPublicKey().substring(0, 255));
-        user.setPrivateKey(data.getPrivateKey().substring(0, 255));
-
-//        user.setPublicKey("data.getPublicKey()");
-//        user.setPrivateKey("data.getPrivateKey()");
+        user.setPublicKey(data.getPublicKey());
+        user.setPrivateKey(data.getPrivateKey());
         userRepository.save(user);
         return new SessionKeyResponse(user.getSessionKey(), user.getEncryptedSessionKey(), user.getPublicKey(), user.getPrivateKey());
     }

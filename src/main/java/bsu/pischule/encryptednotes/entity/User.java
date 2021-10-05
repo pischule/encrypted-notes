@@ -3,10 +3,7 @@ package bsu.pischule.encryptednotes.entity;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
@@ -18,9 +15,13 @@ import java.util.Objects;
 public class User {
     @Id
     private long userId;
+    @Lob
     private String sessionKey;
+    @Lob
     private String encryptedSessionKey;
+    @Lob
     private String publicKey;
+    @Lob
     private String privateKey;
 
     @Override
